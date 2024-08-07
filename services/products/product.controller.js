@@ -1,11 +1,12 @@
 const Product = require('../../utills/schema/product.schema');
 const jwt = require('jsonwebtoken');
 const {addingProduct} = require('../../utills/schema.validate');
+const {validate} = require('../../utills/validate');
 
 const addProduct = async(req,res)=>{
     try {
         const {body} = req;
-        addingProduct.validate(body)
+        await validate(body,addingProduct);
         const {
             farmerId,
             name,
@@ -20,7 +21,7 @@ const addProduct = async(req,res)=>{
         res.status(200).json(product);    
     } catch (error) {
         const statusCode = error.status || 500
-        res.status(statusCode).json({ error: error?.data?.message || 'خطای داخلی سیستم.' });
+        res.status(statusCode).send({ error: error.error|| 'خطای داخلی سیستم.' });
     }
 };
 

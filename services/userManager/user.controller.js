@@ -1,11 +1,12 @@
 const User = require('../../utills/schema/user.schema');
 const {addUser} = require('../../utills/schema.validate');
 const jwt = require('jsonwebtoken');
+const {validate} = require('../../utills/validate');
 
 const createUser =  async (req,res)=>{
     try {
         const {body} = req;
-        addUser.validate(body);
+        await validate(body,addUser);
         const {fullName,phoneNumber,password,userName} = body;
         let user = await User.findOne({phoneNumber});
         if(user){
@@ -16,7 +17,7 @@ const createUser =  async (req,res)=>{
         res.status(200).json(user);
     } catch (error) {
         const statusCode = error.status || 500
-        res.status(statusCode).json({ error: error?.data?.message || 'خطای داخلی سیستم.' });
+        res.status(statusCode).json({ error: error.error||  'خطای داخلی سیستم.' });
     }
 };
 
