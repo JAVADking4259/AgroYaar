@@ -1,8 +1,6 @@
 const User = require('../../utills/schema/user.schema');
 const {addUser} = require('../../utills/schema.validate');
 const jwt = require('jsonwebtoken');
-const {checkToken} = require('../../utills/token');
-const {validate} = require('../../utills/validate');
 
 const createUser =  async (req,res)=>{
     try {
